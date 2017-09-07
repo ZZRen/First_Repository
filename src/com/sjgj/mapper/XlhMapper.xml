@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjgj.mapper.XlhMapper">
+
+	<!-- 根据用户id查询所有序列号和图书-->
+	<select id="selectuserbuybyUid" parameterType="int" resultType="Xlcode">
+		select typename,bname,registertime from xlhcode where uid=#{uid}
+	</select>
+	
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjgj.mapper.UserMapper">
+	
+<!-- 查询是否存在用户-->
+    <select id="selectUser" parameterType="int" resultType="User">
+		SELECT uid,nickName,province,email,phone,registerTime FROM user where uid > #{uid}
+	</select>
+	
+	
+	<!-- 查询是用户id-->
+    <select id="selectUserbyphone" parameterType="String" resultType="int">
+		SELECT uid FROM user where phone = #{phone}
+	</select>
+
+	
+</mapper>

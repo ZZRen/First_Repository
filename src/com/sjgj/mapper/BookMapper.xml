@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjgj.mapper.BookMapper">
+	<!-- 添加图书 -->
+	<insert id="insertBook" parameterType="Fbook" useGeneratedKeys="true" keyProperty="bookid">
+	insert into 
+	fbook(booktype,bookname,bookyear) 
+	values (#{booktype},#{bookname},#{bookyear})
+	</insert>
+	<!-- 列表展示、根据条件查询 -->
+	<select id="selectBookListByObjectQuery" parameterType="FbookQuery" resultType="Fbook">
+		select * from fbook
+		<where>
+			<if test="bookname != null">
+				<!-- and bname like '%${bname}%' sql注入-->
+				and bookname like "%"#{bookname}"%"
+			</if>
+			<if test="booktype!= null and booktype !=''">
+				and booktype = #{booktype}
+			</if>
+		</where>
+		order by bookid desc
+		<if test="startRow != null">
+			limit #{startRow},#{pageSize}
+		</if>
+	</select>
+	
+	<!-- 根据条件查询品牌总数 -->
+	<select id="selectBookCountByObjectQuery" parameterType="FbookQuery" resultType="int">
+		select count(1) from fbook
+		<where>
+			<if test="bookname != null">
+				<!-- and bname like '%${bname}%' sql注入-->
+				and bookname like "%"#{bookname}"%"
+			</if>
+			<if test="booktype != null and booktype !=''">
+				and booktype = #{booktype}
+			</if>
+		</where>
+	</select>
+	<!-- 根据id查询图书信息-->
+	<select id="selectBookByid" parameterType="int" resultType="Fbook">
+		select * from fbook
+		where bookid = #{bookid}
+	</select>
+	
+	<!-- 根据id更新图书信息-->
+	<update id="updateBookById" parameterType="fbook">
+		update fbook
+		<trim prefix="set" suffixOverrides=",">
+			<if test="bookname != null">
+				bookname = #{bookname},
+			</if>
+			<if test="booktype != null">
+				booktype = #{booktype},
+			</if>
+			<if test="bookyear != null">
+				bookyear = #{bookyear},
+			</if>
+		</trim>
+		where bookid = #{bookid}
+	</update>
+
+	<!-- 根据id单个删除  -->
+	<delete id="deleteByid" parameterType="int">
+		delete from fbook 
+		where bookid = #{bookid}
+	 </delete>
+	
+	<!-- 根据年份和名字查询图书信息-->
+	<select id="selectBookByyearandname" parameterType="Fbook" resultType="Fbook">
+		select * from fbook
+		where bookyear = #{bookyear} and bookname like "%"#{bookname}"%"
+	</select>
+	
+	<!-- 根据年份和名字查询图书信息-->
+	<select id="selectBookByname" parameterType="String" resultType="Fbook">
+		select * from fbook
+		where  bookname = #{bookname}
+	</select>
+	
+		<!-- 查询所有图书信息-->
+	<select id="selectfBook" resultType="Fbook">
+		select bookid,bookname from fbook
+	</select>
+</mapper>

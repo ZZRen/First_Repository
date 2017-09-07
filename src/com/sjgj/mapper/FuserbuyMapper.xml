@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjgj.mapper.FuserbuyMapper">
+			<!-- 添加买家购书信息 -->
+	<insert id="insertfuserbuy" parameterType="Fuserbuy" >
+	insert into 
+	fuserbuy(bookid,fuid,buystore,buytime) 
+	values (#{bookid},#{fuid},#{buystore},#{buytime})
+	</insert>
+	
+	<!-- 根据图书id和用户id用户购书信息-->
+	<select id="selectfuserbuyBybookidandfuid" parameterType="fuserbuy" resultType="fuserbuy">
+		select buid from fuserbuy
+		where bookid = #{bookid} and fuid=#{fuid}
+	</select>
+	
+	
+	<!-- 根据购买记录id更新购买记录-->
+	
+	<update id="updatefuserbuyBybuid" parameterType="fuserbuy">
+		update fuserbuy set buytime=#{buytime},buystore=#{buystore}
+		where buid = {buid}
+	</update>
+	
+		<!-- 根据买家fuid查询购书信息-->
+	<select id="selectfuserbuyByfuid" parameterType="int" resultType="fuserbuy">
+		select * from fuserbuy
+		where  fuid=#{fuid}
+	</select>
+	
+		<!-- 根据fuid删除用户购书记录  -->
+	<delete id="deleteuserbuyByfuid" parameterType="int">
+		delete from fuserbuy
+		where fuid = #{fuid}
+	 </delete>
+</mapper>

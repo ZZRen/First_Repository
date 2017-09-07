@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjgj.mapper.FuserMapper">
+		<!-- 添加买家信息 -->
+	<insert id="insertfuser" parameterType="Fuser" useGeneratedKeys="true" keyProperty="fuid">
+	insert into 
+	fuser(tname,phone,email,area,examyear,englishtype) 
+	values (#{tname},#{phone},#{email},#{area},#{examyear},#{englishtype})
+	</insert>
+	<!-- 根据手机号查询用户是否存在-->
+	<select id="selectfuserByphone" parameterType="String" resultType="Fuser">
+		select fuid,phone from fuser
+		where phone = #{phone}
+	</select>
+	
+	<!-- 更新买家 用户信息-->
+	
+	<update id="updatfuserByfuid" parameterType="fuser">
+		update fuser set area=#{area} where fuid = {fuid}
+	</update>
+	
+		
+	<!-- 更新买家 用户信息-->
+	
+	<update id="updatallfuserByfuid" parameterType="fuser">
+		update fuser set examyear=#{examyear},englishtype=#{englishtype}
+		where fuid = #{fuid}
+	</update>
+	
+		
+<!-- 列表展示、根据条件查询 -->
+<!-- 	<select id="selectfuserListByObjectQuery" parameterType="FuserQuery" resultType="Fuser">
+		select * from fuser
+		<where>
+			<if test="area != null">
+				and bname like '%${bname}%' sql注入
+				and area like "%"#{area}"%"
+			</if>
+			<if test="englishtype!= null and englishtype !=''">
+				and englishtype = #{englishtype}
+			</if>
+			<if test="examyear!= null and examyear !=''">
+				and examyear = #{examyear}
+			</if>
+			<if test="phone!= null and phone !=''">
+				and phone = #{phone}
+			</if>
+		</where>
+		order by fuid desc
+		<if test="startRow != null">
+			limit #{startRow},#{pageSize}
+		</if>
+	</select>  -->
+
+			<!-- 列表展示、根据条件查询 -->
+	<select id="selectfuserListByObjectQuery" parameterType="FuserQuery" resultType="Fuser">
+		SELECT fuser.fuid,fuser.phone,fuser.tname,fuser.email,fuser.area,fuser.examyear,fuser.englishtype  
+		FROM fuser 
+		LEFT JOIN fuserbuy ON fuser.fuid=fuserbuy.fuid 
+		<where>
+			<if test="area != null">
+				<!-- and bname like '%${bname}%' sql注入-->
+				and fuser.area like "%"#{area}"%"
+			</if>
+			<if test="englishtype!= null and englishtype !=''">
+				and fuser.englishtype = #{englishtype}
+			</if>
+			<if test="examyear!= null and examyear !=''">
+				and fuser.examyear = #{examyear}
+			</if>
+			<if test="phone!= null and phone !=''">
+				and fuser.phone = #{phone}
+			</if>
+			<if test="bookid!= null and bookid !=''">
+				and fuserbuy.bookid = #{bookid}
+			</if>
+			<if test="buystore!= null and buystore !=''">
+				and fuserbuy.buystore = #{buystore}
+			</if>
+		</where>
+		GROUP BY fuser.fuid 
+		order by fuser.fuid desc
+		<if test="startRow != null">
+			limit #{startRow},#{pageSize}
+		</if>
+	</select>
+	
+		<!-- 根据条件查询买家总数 -->
+	 <select id="selectfuserCountByObjectQuery" parameterType="FuserQuery" resultType="int">
+		select count(DISTINCT fuser.fuid) FROM fuser 
+		LEFT JOIN fuserbuy ON fuser.fuid=fuserbuy.fuid 
+		<where>
+			<if test="area != null">
+				<!-- and bname like '%${bname}%' sql注入-->
+				and fuser.area like "%"#{area}"%"
+			</if>
+			<if test="englishtype!= null and englishtype !=''">
+				and fuser.englishtype = #{englishtype}
+			</if>
+			<if test="examyear!= null and examyear !=''">
+				and fuser.examyear = #{examyear}
+			</if>
+			<if test="phone!= null and phone !=''">
+				and fuser.phone = #{phone}
+			</if>
+			<if test="bookid!= null and bookid !=''">
+				and fuserbuy.bookid = #{bookid}
+			</if>
+			<if test="buystore!= null and buystore !=''">
+				and fuserbuy.buystore = #{buystore}
+			</if>
+		</where>
+	</select>
+	 
+	<!-- 根据条件查询买家总数 -->
+	<!-- <select id="selectfuserCountByObjectQuery" parameterType="FuserQuery" resultType="int">
+		select count(1) from fuser
+		<where>
+			<if test="area != null">
+				and area like "%"#{area}"%"
+			</if>
+			<if test="englishtype!= null and englishtype !=''">
+				and englishtype = #{englishtype}
+			</if>
+			<if test="examyear!= null and examyear !=''">
+				and examyear = #{examyear}
+			</if>
+			<if test="phone!= null and phone !=''">
+				and phone = #{phone}
+			</if>
+		</where>
+	</select>
+	 -->
+	
+		<!-- 查询最后一次导入用户的信息-->
+	<select id="selectlastfuser" resultType="fuser">
+		SELECT fuid ,phone FROM  fuser ORDER BY fuid DESC LIMIT 1;
+	</select>
+	
+		<!-- 根据id单个删除  -->
+	<delete id="deleteByid" parameterType="int">
+		delete from fuser
+		where fuid = #{fuid}
+	 </delete>
+</mapper>

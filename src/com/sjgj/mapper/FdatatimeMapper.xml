@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjgj.mapper.FdatatimeMapper">
+
+	<!-- 更新app数据导入时间-->
+	
+	<update id="updateapptimeById" parameterType="fdatatime">
+		update fdatatime set datatime=#{datatime} where id = #{id}
+	</update>
+			<!-- 根据id查询数据导入时间-->
+  <select id="selectdatatimeByid" parameterType="int"
+		resultType="fdatatime">
+		SELECT id,datatime FROM fdatatime where id=#{id}
+	</select>
+</mapper>

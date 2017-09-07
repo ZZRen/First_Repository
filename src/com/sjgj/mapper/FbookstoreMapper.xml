@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjgj.mapper.FbookstoreMapper">
+	<!-- 添加图书商城 -->
+	<insert id="insertBookstore" parameterType="Fbookstore" >
+	insert into 
+	fbookstore (storename) 
+	values (#{storename})
+	</insert>
+<!-- 根据商城名字查询商城信息-->
+	<select id="selectBookstoreByname" parameterType="String" resultType="Fbookstore">
+		select * from fbookstore
+		where storename = #{storename} 
+	</select>
+	<!-- 查询所有商城信息-->
+	<select id="selectBookstore"  resultType="Fbookstore">
+		select storename from fbookstore
+	</select>
+</mapper>
