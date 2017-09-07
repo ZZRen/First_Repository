@@ -6,13 +6,13 @@ public class textUtils {
 		
 		String nb="http://121.52.215.196:8080/jane/appcontent/00000000zaxue.png";
 //		
-		String ns=nb.substring(nb.lastIndexOf("/")+1);
-		String p1s=ns.substring(8);
-		System.out.println(p1s);
-		String ps=p1s.substring(0, p1s.indexOf("."));
+//		String ns=nb.substring(nb.lastIndexOf("/")+1);
+//		String p1s=ns.substring(8);
+//		System.out.println(p1s);
+//		String ps=p1s.substring(0, p1s.indexOf("."));
 //		boolean contains = nb.contains("=");
 //		System.out.println(ps);
-		System.out.println(ps);
+//		System.out.println(ps);
 
 			
 ////		     double a=79.40;
